@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { WayForPayCallbackBody } from "@/types";
@@ -12,8 +12,6 @@ const FROM_EMAIL = process.env.FROM_EMAIL!;
 
 function verifyWayForPaySignature(body: WayForPayCallbackBody) {
   const receivedSignature = body.merchantSignature;
-
-  // Формуємо рядок для підпису (приклад)
   const signatureString = [
     body.merchantAccount,
     body.orderReference,
@@ -35,11 +33,8 @@ async function sendEmail(to: string, subject: string, content: string) {
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port: SMTP_PORT,
-    secure: SMTP_PORT === 465, // true для 465, false для 587
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
+    secure: SMTP_PORT === 465,
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
 
   await transporter.sendMail({
@@ -51,49 +46,44 @@ async function sendEmail(to: string, subject: string, content: string) {
   });
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== "POST") return res.status(405).end();
+export async function POST(req: NextRequest) {
+  const body: WayForPayCallbackBody = await req.json();
 
-  const body = req.body;
-
-  // 1️⃣ Перевіряємо signature
   if (!verifyWayForPaySignature(body)) {
     console.warn("Invalid WFP signature", body);
-    return res.status(400).json({ error: "Invalid signature" });
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  // 2️⃣ Перевірка статусу платежу
   const status = body.transactionStatus || body.status;
   if (!status || !String(status).toLowerCase().includes("approved")) {
-    return res
-      .status(200)
-      .json({ orderReference: body.orderReference, status: "not approved" });
+    return NextResponse.json(
+      { orderReference: body.orderReference, status: "not approved" },
+      { status: 200 }
+    );
   }
 
-  // 3️⃣ Відправляємо листа
   const customerEmail = body.clientEmail || body.email;
   if (!customerEmail) {
     console.warn("No customer email provided");
-    return res.status(400).json({ error: "No email provided" });
+    return NextResponse.json({ error: "No email provided" }, { status: 400 });
   }
 
   try {
     const subject = `Доступ до курсу: ${body.productName || "Курс"}`;
-    const content = `Дякуємо за оплату! Ось ваші матеріали курсу.\n\n[тут можна додати посилання на файл або Telegram-канал]`;
+    const content = `Дякуємо за оплату! Ось ваші матеріали курсу.\n\n[тут можна додати посилання]`;
 
     await sendEmail(customerEmail, subject, content);
     console.log("Email sent to", customerEmail);
 
-    return res
-      .status(200)
-      .json({ orderReference: body.orderReference, status: "ok" });
+    return NextResponse.json(
+      { orderReference: body.orderReference, status: "ok" },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("Error sending email", err);
-    return res
-      .status(500)
-      .json({ orderReference: body.orderReference, status: "error" });
+    return NextResponse.json(
+      { orderReference: body.orderReference, status: "error" },
+      { status: 500 }
+    );
   }
 }
