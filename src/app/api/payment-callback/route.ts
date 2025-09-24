@@ -50,13 +50,13 @@ export async function POST(req: NextRequest) {
     }
 
     // Генеруємо підпис для відповіді WayForPay
-    const time = Math.floor(Date.now() / 1000);
+    const time = Date.now();
     const status = "accept";
     const signatureString = [body.orderReference, status, time].join(";");
     const signature = crypto
       .createHmac("md5", MERCHANT_SECRET_KEY)
       .update(signatureString)
-      .digest("base64");
+      .digest("hex");
 
     return NextResponse.json({
       orderReference: body.orderReference,
