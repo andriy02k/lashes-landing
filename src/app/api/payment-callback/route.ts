@@ -25,29 +25,30 @@ async function sendEmail(to: string, subject: string, content: string) {
 // ------------------------------------------------------
 // Функція для перевірки підпису від WayForPay
 // ------------------------------------------------------
-function verifyWayForPaySignature(body: WayForPayCallbackBody, secret: string) {
-  // Для спрощення беремо мінімальні поля
-  // WayForPay документація рекомендує включати:
-  // merchantAccount;orderReference;amount;currency;authCode;transactionStatus;reasonCode
+export function verifyWayForPaySignature(
+  body: WayForPayCallbackBody,
+  secret: string
+) {
+  // WayForPay для callback використовує ці поля для підпису
+  const merchantDomainName = "lashes-landing.vercel.app"; // твій домен, жорстко підставляємо
+
   const signatureString = [
     body.merchantAccount,
+    merchantDomainName,
     body.orderReference,
     body.amount,
     body.currency,
-    body.authCode ?? "",
-    body.transactionStatus ?? "",
-    body.reasonCode ?? "",
   ].join(";");
 
-  const expected = crypto
+  const expectedSignature = crypto
     .createHmac("md5", secret)
-    .update(signatureString)
+    .update(signatureString, "utf8")
     .digest("base64");
 
-  console.log("Expected signature:", expected);
+  console.log("Expected signature:", expectedSignature);
   console.log("Received signature:", body.merchantSignature);
 
-  return expected === body.merchantSignature;
+  return expectedSignature === body.merchantSignature;
 }
 
 export async function POST(req: NextRequest) {
