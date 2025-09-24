@@ -43,7 +43,7 @@ export function verifyWayForPaySignature(
   const expectedSignature = crypto
     .createHmac("md5", secret)
     .update(signatureString, "utf8")
-    .digest("base64");
+    .digest("hex");
 
   console.log("Expected signature:", expectedSignature);
   console.log("Received signature:", body.merchantSignature);
