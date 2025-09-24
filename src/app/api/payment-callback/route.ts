@@ -3,26 +3,9 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { WayForPayCallbackBody } from "@/types";
 
-const WFP_SECRET = process.env.WFP_SECRET!;
+const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY!;
 const SMTP_USER = process.env.SMTP_USER!;
 const SMTP_PASS = process.env.SMTP_PASS!;
-
-function verifyWayForPaySignature(body: WayForPayCallbackBody) {
-  const signatureString = [
-    body.merchantAccount,
-    body.merchantDomainName ?? "",
-    body.orderReference,
-    body.amount,
-    body.currency,
-  ].join(";");
-
-  const expected = crypto
-    .createHmac("md5", WFP_SECRET)
-    .update(signatureString)
-    .digest("base64");
-
-  return expected === body.merchantSignature;
-}
 
 async function sendEmail(to: string, subject: string, content: string) {
   const transporter = nodemailer.createTransport({
@@ -39,18 +22,50 @@ async function sendEmail(to: string, subject: string, content: string) {
   });
 }
 
+// ------------------------------------------------------
+// Функція для перевірки підпису від WayForPay
+// ------------------------------------------------------
+function verifyWayForPaySignature(body: WayForPayCallbackBody, secret: string) {
+  // Для спрощення беремо мінімальні поля
+  // WayForPay документація рекомендує включати:
+  // merchantAccount;orderReference;amount;currency;authCode;transactionStatus;reasonCode
+  const signatureString = [
+    body.merchantAccount,
+    body.orderReference,
+    body.amount,
+    body.currency,
+    body.authCode ?? "",
+    body.transactionStatus ?? "",
+    body.reasonCode ?? "",
+  ].join(";");
+
+  const expected = crypto
+    .createHmac("md5", secret)
+    .update(signatureString)
+    .digest("base64");
+
+  console.log("Expected signature:", expected);
+  console.log("Received signature:", body.merchantSignature);
+
+  return expected === body.merchantSignature;
+}
+
 export async function POST(req: NextRequest) {
   const body: WayForPayCallbackBody = await req.json();
   console.log("WFP callback:", body);
 
-  // Перевірка підпису
-  if (!verifyWayForPaySignature(body)) {
+  // === Перевірка підпису ===
+  if (!verifyWayForPaySignature(body, MERCHANT_SECRET_KEY)) {
     console.warn("Invalid signature");
+    // WayForPay буде повторювати запит до 4 діб, тому повертаємо 400
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  // Перевірка статусу платежу
-  if (body.transactionStatus !== "Approved" || body.reasonCode !== "1100") {
+  // === Перевірка статусу платежу ===
+  if (
+    body.transactionStatus !== "Approved" ||
+    Number(body.reasonCode) !== 1100
+  ) {
     return NextResponse.json(
       { orderReference: body.orderReference, status: "not approved" },
       { status: 200 }
@@ -63,17 +78,17 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Відправка листа клієнту
+    // === Відправка листа клієнту ===
     const subject = `Доступ до курсу: ${body.orderReference}`;
     const content = `Дякуємо за оплату! Ось ваші матеріали курсу.\n\n[посилання на контент]`;
     await sendEmail(customerEmail, subject, content);
     console.log("Email sent to", customerEmail);
 
-    // Формуємо підпис для відповіді WayForPay
+    // === Формуємо підпис для відповіді WayForPay ===
     const time = Math.floor(Date.now() / 1000);
-    const status = "accept";
+    const status = "accept"; // завжди accept
     const responseSignature = crypto
-      .createHmac("md5", WFP_SECRET)
+      .createHmac("md5", MERCHANT_SECRET_KEY)
       .update([body.orderReference, status, time].join(";"))
       .digest("base64");
 

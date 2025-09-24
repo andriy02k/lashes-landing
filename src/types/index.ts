@@ -1,8 +1,7 @@
 export interface WayForPayCallbackBody {
   merchantAccount: string;
-  merchantSignature: string;
-  merchantDomainName?: string;
   orderReference: string;
+  merchantSignature: string;
   amount: number;
   currency: string;
   authCode?: string;
@@ -14,9 +13,17 @@ export interface WayForPayCallbackBody {
   cardType?: string;
   issuerBankCountry?: string;
   issuerBankName?: string;
+  recToken?: string;
   transactionStatus?: string;
   reason?: string;
-  reasonCode?: string;
+  reasonCode: number;
   fee?: number;
   paymentSystem?: string;
+  acquirerBankName?: string;
+  cardProduct?: string;
+  clientName?: string;
+  products?: { name: string; price: number; count: number }[];
+  rrn?: string;
+  terminal?: string;
+  acquirer?: string;
 }
