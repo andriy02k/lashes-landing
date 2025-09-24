@@ -1,14 +1,22 @@
 export interface WayForPayCallbackBody {
-  merchantSignature: string;
   merchantAccount: string;
+  merchantSignature: string;
+  merchantDomainName?: string;
   orderReference: string;
   amount: number;
   currency: string;
   authCode?: string;
-  merchantTransactionType?: string;
-  transactionStatus?: string;
-  status?: string;
-  clientEmail?: string;
   email?: string;
-  productName?: string;
+  phone?: string;
+  createdDate?: number;
+  processingDate?: number;
+  cardPan?: string;
+  cardType?: string;
+  issuerBankCountry?: string;
+  issuerBankName?: string;
+  transactionStatus?: string;
+  reason?: string;
+  reasonCode?: string;
+  fee?: number;
+  paymentSystem?: string;
 }
