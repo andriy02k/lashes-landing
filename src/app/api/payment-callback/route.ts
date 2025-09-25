@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { WayForPayCallbackBody } from "@/types";
+import { createTelegramInviteLink } from "@/utils/telegram";
 
 const MERCHANT_SECRET_KEY = process.env.MERCHANT_SECRET_KEY!;
 const SMTP_USER = process.env.SMTP_USER!;
@@ -27,7 +28,6 @@ export async function POST(req: NextRequest) {
     const body: WayForPayCallbackBody = await req.json();
     console.log("WFP callback:", body);
 
-    // Перевірка статусу платежу
     if (
       body.transactionStatus !== "Approved" ||
       Number(body.reasonCode) !== 1100
@@ -38,18 +38,24 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let inviteLink: string | null = null;
+    try {
+      inviteLink = await createTelegramInviteLink();
+      console.log("Invite created:", inviteLink);
+    } catch (e) {
+      console.error("Failed to create invite link:", e);
+    }
+
     const customerEmail = body.email;
     if (customerEmail) {
-      // Відправка листа клієнту
       const subject = `Доступ до курсу: ${body.orderReference}`;
-      const content = `Дякуємо за оплату! Ось ваші матеріали курсу.\n\n[посилання на контент]`;
+      const content = `Дякуємо за оплату! Ось ваші матеріали курсу.\n\n <a href="${inviteLink}">${inviteLink}</a>`;
       await sendEmail(customerEmail, subject, content);
       console.log("Email sent to", customerEmail);
     } else {
       console.warn("No email provided for this payment");
     }
 
-    // Генеруємо підпис для відповіді WayForPay
     const time = Date.now();
     const status = "accept";
     const signatureString = [body.orderReference, status, time].join(";");
