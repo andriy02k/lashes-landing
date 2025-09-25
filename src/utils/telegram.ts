@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
+const BOT_TOKEN = process.env.BOT_TOKEN!;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
 // const INVITE_EXPIRE_SECONDS = Number(process.env.INVITE_EXPIRE_SECONDS || 3600);
 
