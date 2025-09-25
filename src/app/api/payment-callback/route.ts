@@ -39,6 +39,11 @@ export async function POST(req: NextRequest) {
     }
 
     let inviteLink: string | null = null;
+    console.log(
+      "Telegram API URL:",
+      `https://api.telegram.org/bot${process.env.BOT_TOKEN}/createChatInviteLink`
+    );
+
     try {
       inviteLink = await createTelegramInviteLink();
       console.log("Invite created:", inviteLink);
