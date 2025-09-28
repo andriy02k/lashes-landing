@@ -1,11 +1,9 @@
-import { PayButton } from "@/widgets/PayButton/PayButton";
+import LandingPage from "@/widgets/LandingPage/LandingPage";
 
 export default function Home() {
   return (
     <main>
-      <section id="payment">
-        <PayButton />
-      </section>
+      <LandingPage />
     </main>
   );
 }
