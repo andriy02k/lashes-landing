@@ -36,22 +36,22 @@ export default function LandingPage() {
       <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6">
         <div className="max-w-3xl mx-auto relative z-10">
           <Image
-            src="https://mapi7.com/assets/images/blog/idei-dlya-foto-v-pole/idei-dlya-foto-v-pole-3.jpg"
-            width={160}
+            src="/logo/logo-gold-horizontal.png"
+            width={400}
             height={160}
             alt="Alona Polonets"
-            className="w-40 h-40 mx-auto rounded-full object-cover shadow-2xl mb-6"
+            className="mx-auto mb-6"
           />
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-gold-gradient text-4xl md:text-6xl font-bold mb-6 leading-tight">
             Онлайн-посібник базового курсу з нарощування вій
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-8">
+          <p className="text-lg md:text-xl text-background mb-8">
             Від переможниці чемпіонату у категорії «Експерт» та викладача з
             понад 5-річним досвідом.
           </p>
           <Link
             href="#payment"
-            className="inline-block bg-primary text-black px-8 py-4 rounded-2xl font-semibold shadow-lg hover:opacity-90 transition"
+            className="inline-block bg-secondary text-black text-xl px-8 py-4 rounded-2xl font-semibold shadow-lg hover:opacity-90 transition"
           >
             Придбати курс
           </Link>
@@ -69,21 +69,21 @@ export default function LandingPage() {
             className="rounded-3xl object-cover shadow-2xl"
           />
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <h2 className="text-gold-gradient text-3xl md:text-4xl font-bold mb-6">
               Привіт, я Альона!
             </h2>
-            <p className="mb-4 text-gray-300">
+            <p className="mb-4 text-background0">
               Майстер, викладач та переможниця чемпіонату у категорії «Експерт».
               Я знаю, як це — губитися після курсів, боятися клієнтів та
               сумніватися в собі.
             </p>
-            <p className="mb-8 text-gray-300">
+            <p className="mb-8 text-background">
               Саме тому я створила цей онлайн-посібник — щоб дати впевненість і
               правильну базу.
             </p>
             <Link
               href="#payment"
-              className="inline-block bg-secondary text-black px-6 py-3 rounded-xl font-medium shadow-md hover:opacity-90 transition"
+              className="inline-block bg-secondary text-background text-lg px-6 py-3 rounded-xl font-medium shadow-md hover:opacity-90 transition"
             >
               Отримати доступ
             </Link>
@@ -94,10 +94,10 @@ export default function LandingPage() {
       {/* Про курс */}
       <section className="relative py-32 px-6">
         <div className="max-w-5xl mx-auto text-center bg-white/5 backdrop-blur-md rounded-3xl p-12 shadow-lg">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          <h2 className="text-gold-gradient text-3xl md:text-4xl font-bold mb-6">
             Що дасть цей курс?
           </h2>
-          <p className="text-lg mb-14 max-w-2xl mx-auto text-gray-300">
+          <p className="text-xl mb-14 max-w-2xl mx-auto text-background">
             Це не просто конспект — це структурована база знань онлайн, яка
             економить роки пошуків і дає фундамент для впевненого старту.
           </p>
@@ -109,9 +109,11 @@ export default function LandingPage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="p-8 border border-white/10 rounded-2xl bg-gray-900/40 shadow-md"
+                className="relative rounded-2xl p-[2px] bg-gradient-to-r from-gold via-white to-gold"
               >
-                <p className="text-gray-200">{item}</p>
+                <div className="rounded-2xl bg-gradient-to-b from-gray-800 to-gray-900 p-8">
+                  <p className="text-background">{item}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -120,8 +122,8 @@ export default function LandingPage() {
 
       {/* Для кого */}
       <section className="relative py-32 px-6">
-        <div className="max-w-5xl mx-auto text-center bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-12 shadow-lg">
-          <h2 className="text-3xl md:text-4xl font-bold mb-10">
+        <div className="max-w-5xl mx-auto text-center bg-white/5 backdrop-blur-lg rounded-3xl p-12 shadow-lg">
+          <h2 className="text-gold-gradient text-3xl md:text-4xl font-bold mb-10">
             Цей посібник підійде для:
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -132,9 +134,11 @@ export default function LandingPage() {
             ].map((item, i) => (
               <div
                 key={i}
-                className="p-8 rounded-2xl shadow-lg bg-gradient-to-b from-gray-800/60 to-gray-900/60 border border-white/10"
+                className="relative rounded-2xl p-[2px] bg-gradient-to-r from-gold via-white to-gold shadow-lg"
               >
-                <p className="text-gray-200">{item}</p>
+                <div className="rounded-2xl bg-gradient-to-b from-foreground to-foreground/90 p-8">
+                  <p className="text-gray-200">{item}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -143,14 +147,30 @@ export default function LandingPage() {
 
       {/* Оплата */}
       <section id="payment" className="relative py-32 px-6">
-        <div className="max-w-3xl mx-auto text-center bg-gradient-to-r from-secondary to-primary text-black rounded-3xl p-12 shadow-xl">
-          <h2 className="text-4xl font-bold mb-6">Готова почати?</h2>
-          <p className="mb-10 text-lg">
-            Забери доступ до онлайн-посібника вже сьогодні і отримай впевненість
-            у своїй професії.
-          </p>
-          <PayButton />
+        <div className="relative max-w-3xl mx-auto text-center">
+          {/* Градієнтний бордер через псевдоелемент */}
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gold via-white to-gold -z-10"></div>
+
+          {/* Внутрішній блок */}
+          <div className="relative rounded-3xl bg-white/5 backdrop-blur-md p-12 shadow-xl">
+            <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gold via-white to-gold">
+              Готова почати?
+            </h2>
+            <p className="mb-10 text-lg text-background">
+              Забери доступ до онлайн-посібника вже сьогодні і отримай
+              впевненість у своїй професії.
+            </p>
+            <PayButton />
+          </div>
         </div>
+
+        <Image
+          src="/logo/logo-gold-horizontal.png"
+          width={400}
+          height={160}
+          alt="Alona Polonets"
+          className="mx-auto my-6"
+        />
       </section>
     </div>
   );

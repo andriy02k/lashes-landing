@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    font-family: var(--font-montserrat), sans-serif;
+    font-family: var(--font-playfair), sans-serif;
   }
 }
 
@@ -12,6 +12,7 @@
   --primary: #f4e4e5;
   --destructive: #ff1c3b;
   --secondary: #c69e71;
+  --gold: #ebd05b;
 }
 
 @theme inline {
@@ -19,6 +20,7 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-gold: var(--gold);
   --color-destructive: var(--destructive);
   --color-muted: var(--muted);
   --font-sans: var(--font-geist-sans);
@@ -28,4 +30,17 @@
 body {
   background: var(--primary);
   color: var(--foreground);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(
+    80deg,
+    var(--gold),
+    var(--background),
+    var(--gold)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
