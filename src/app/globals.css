@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    font-family: var(--font-playfair), sans-serif;
+    font-family: var(--font-gsfDidot), sans-serif;
   }
 }
 

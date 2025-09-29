@@ -34,7 +34,7 @@ export default function LandingPage() {
 
       {/* Hero */}
       <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6">
-        <div className="max-w-3xl mx-auto relative z-10">
+        <div className="max-w-4xl mx-auto relative z-10">
           <Image
             src="/logo/logo-gold-horizontal.png"
             width={400}
@@ -42,7 +42,7 @@ export default function LandingPage() {
             alt="Alona Polonets"
             className="mx-auto mb-6"
           />
-          <h1 className="text-gold-gradient text-4xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-gold-gradient text-4xl md:text-6xl font-medium mb-6 leading-tight">
             Онлайн-посібник базового курсу з нарощування вій
           </h1>
           <p className="text-lg md:text-xl text-background mb-8">

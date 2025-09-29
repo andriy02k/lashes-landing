@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
-import { Playfair } from "next/font/google";
+import { GFS_Didot } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "Lashes Studio",
   description: "Lashes Studio by Alona Polonets",
 };
 
-export const playfair = Playfair({
+export const gsfDidot = GFS_Didot({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-playfair",
+  weight: ["400"],
+  display: "swap",
+  variable: "--font-gsfDidot",
 });
 
 export default function RootLayout({
@@ -20,7 +21,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} scroll-smooth`}>
+    <html lang="en" className={`${gsfDidot.variable} scroll-smooth`}>
       <body>{children}</body>
     </html>
   );
