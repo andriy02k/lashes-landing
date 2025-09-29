@@ -111,8 +111,8 @@ export default function LandingPage() {
                 key={i}
                 className="relative rounded-2xl p-[2px] bg-gradient-to-r from-gold via-white to-gold"
               >
-                <div className="rounded-2xl bg-gradient-to-b from-gray-800 to-gray-900 p-8">
-                  <p className="text-background">{item}</p>
+                <div className="flex items-center min-h-[136px] rounded-2xl bg-gradient-to-b from-gray-800 to-gray-900 p-8">
+                  <p className="text-background text-center">{item}</p>
                 </div>
               </div>
             ))}
