@@ -6,7 +6,7 @@ import { BlurryCircle } from "@/shared/components/BlurryCircle/BlurryCircle";
 export default function LandingPage() {
   return (
     <div className="relative min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-white font-sans overflow-hidden">
-      {/* Бліки */}
+      {/* Bleek */}
       <BlurryCircle
         size={500}
         color="#f4e4e5"
@@ -58,8 +58,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Про автора */}
-      <section className="relative py-32 px-6">
+      {/* About author */}
+      <section className="relative py-20 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center bg-white/5 backdrop-blur-md rounded-3xl p-10 shadow-lg">
           <Image
             src="https://mapi7.com/assets/images/blog/idei-dlya-foto-v-pole/idei-dlya-foto-v-pole-3.jpg"
@@ -91,8 +91,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Про курс */}
-      <section className="relative py-32 px-6">
+      {/* About course */}
+      <section className="relative py-20 px-6">
         <div className="max-w-5xl mx-auto text-center bg-white/5 backdrop-blur-md rounded-3xl p-12 shadow-lg">
           <h2 className="text-gold-gradient text-3xl md:text-4xl font-bold mb-6">
             Що дасть цей курс?
@@ -120,8 +120,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Для кого */}
-      <section className="relative py-32 px-6">
+      {/* For whom */}
+      <section className="relative py-20 px-6">
         <div className="max-w-5xl mx-auto text-center bg-white/5 backdrop-blur-lg rounded-3xl p-12 shadow-lg">
           <h2 className="text-gold-gradient text-3xl md:text-4xl font-bold mb-10">
             Цей посібник підійде для:
@@ -129,7 +129,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               "✨ Майстрів-початківців, які хочуть почати впевнено",
-              "✨ Тих, хто планує пройти курси, але ще сумнівається",
+              "🌟 Тих, хто планує пройти курси, але ще сумнівається",
               "✨ Майстрів, які готуються викладати",
             ].map((item, i) => (
               <div
@@ -145,13 +145,10 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Оплата */}
-      <section id="payment" className="relative py-32 px-6">
+      {/* Payment */}
+      <section id="payment" className="relative py-20 px-6">
         <div className="relative max-w-3xl mx-auto text-center">
-          {/* Градієнтний бордер через псевдоелемент */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gold via-white to-gold -z-10"></div>
-
-          {/* Внутрішній блок */}
+          <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gold via-white to-gold -z-10" />
           <div className="relative rounded-3xl bg-white/5 backdrop-blur-md p-12 shadow-xl">
             <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gold via-white to-gold">
               Готова почати?
